@@ -1,6 +1,7 @@
-package com.renhui.androidrecorder;
+package com.renhui.androidrecorder.onlyh264;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
@@ -14,7 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+
+import com.renhui.androidrecorder.muxer.MediaMuxerActivity;
+import com.renhui.androidrecorder.R;
 
 import java.io.IOException;
 
@@ -23,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     Camera camera;
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
+    Button muxerButton;
 
     int width = 1280;
     int height = 720;
@@ -51,6 +58,15 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         surfaceView = (SurfaceView) findViewById(R.id.surface_view);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
+        muxerButton = (Button) findViewById(R.id.go_muxer);
+        muxerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MediaMuxerActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         if (supportH264Codec()) {
             Log.e("MainActivity", "support H264 hard codec");

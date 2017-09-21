@@ -1,4 +1,4 @@
-package com.renhui.androidrecorder;
+package com.renhui.androidrecorder.onlyh264;
 
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
