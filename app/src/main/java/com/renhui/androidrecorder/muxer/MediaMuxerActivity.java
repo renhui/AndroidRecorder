@@ -4,9 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
-import android.media.MediaCodecInfo;
-import android.media.MediaCodecList;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -72,11 +69,6 @@ public class MediaMuxerActivity extends AppCompatActivity implements SurfaceHold
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
 
-        if (supportH264Codec()) {
-            Log.e("MainActivity", "support H264 hard codec");
-        } else {
-            Log.e("MainActivity", "not support H264 hard codec");
-        }
     }
 
     @Override
@@ -101,29 +93,6 @@ public class MediaMuxerActivity extends AppCompatActivity implements SurfaceHold
     public void onPreviewFrame(byte[] bytes, Camera camera) {
         Log.e("111", "bytes" + bytes.length);
     }
-
-    //----------------------- MediaCodec 相关 ------------------------------------
-
-    /**
-     * 检测是否支持H264编码格式
-     */
-    private boolean supportH264Codec() {
-        // 遍历支持的编码格式信息
-        if (Build.VERSION.SDK_INT >= 18) {
-            for (int j = MediaCodecList.getCodecCount() - 1; j >= 0; j--) {
-                MediaCodecInfo codecInfo = MediaCodecList.getCodecInfoAt(j);
-
-                String[] types = codecInfo.getSupportedTypes();
-                for (int i = 0; i < types.length; i++) {
-                    if (types[i].equalsIgnoreCase("video/avc")) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
 
     //----------------------- 摄像头操作相关 --------------------------------------
 
