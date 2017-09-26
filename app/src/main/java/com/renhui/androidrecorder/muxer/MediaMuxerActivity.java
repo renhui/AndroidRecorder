@@ -55,10 +55,11 @@ public class MediaMuxerActivity extends AppCompatActivity implements SurfaceHold
             @Override
             public void onClick(View view) {
                 if (view.getTag().toString().equalsIgnoreCase("stop")) {
-                    stopCamera();
                     view.setTag("start");
                     ((TextView) view).setText("开始");
                     MediaMuxerThread.stopMuxer();
+                    stopCamera();
+                    finish();
                 } else {
                     startCamera();
                     view.setTag("stop");
@@ -107,7 +108,9 @@ public class MediaMuxerActivity extends AppCompatActivity implements SurfaceHold
         camera.setDisplayOrientation(90);
         Camera.Parameters parameters = camera.getParameters();
         parameters.setPreviewFormat(ImageFormat.NV21);
-        parameters.setPreviewSize(1280, 720);
+
+        // 这个宽高的设置必须和后面编解码的设置一样，否则不能正常处理
+        parameters.setPreviewSize(1920, 1080);
 
         try {
             camera.setParameters(parameters);

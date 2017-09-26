@@ -16,6 +16,9 @@ import java.util.Vector;
  */
 public class VideoEncoderThread extends Thread {
 
+    public static final int IMAGE_HEIGHT = 1080;
+    public static final int IMAGE_WIDTH = 1920;
+
     private static final String TAG = "VideoEncoderThread";
 
     // 编码相关参数
@@ -31,6 +34,9 @@ public class VideoEncoderThread extends Thread {
     // 存储每一帧的数据 Vector 自增数组
     private Vector<byte[]> frameBytes;
     private byte[] mFrameData;
+
+    private static final int COMPRESS_RATIO = 256;
+    private static final int BIT_RATE = IMAGE_HEIGHT * IMAGE_WIDTH * 3 * 8 * FRAME_RATE / COMPRESS_RATIO; // bit rate CameraWrapper.
 
     private final Object lock = new Object();
 
@@ -66,7 +72,7 @@ public class VideoEncoderThread extends Thread {
             return;
         }
         mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE, this.mWidth, this.mHeight);
-        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, 4860000);
+        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, FRAME_RATE);
         mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar);
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, IFRAME_INTERVAL);
