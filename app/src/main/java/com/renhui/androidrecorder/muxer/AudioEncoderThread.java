@@ -50,8 +50,9 @@ public class AudioEncoderThread extends Thread {
     private static final MediaCodecInfo selectAudioCodec(final String mimeType) {
         MediaCodecInfo result = null;
         // get the list of available codecs
+        Log.e("111", "selectAudioCodec");
         final int numCodecs = MediaCodecList.getCodecCount();
-        LOOP:
+        Log.e("111", "selectAudioCodec。。。" + numCodecs);
         for (int i = 0; i < numCodecs; i++) {
             final MediaCodecInfo codecInfo = MediaCodecList.getCodecInfoAt(i);
             if (!codecInfo.isEncoder()) {    // skipp decoder
@@ -63,7 +64,7 @@ public class AudioEncoderThread extends Thread {
                 if (types[j].equalsIgnoreCase(mimeType)) {
                     if (result == null) {
                         result = codecInfo;
-                        break LOOP;
+                        break;
                     }
                 }
             }
@@ -77,13 +78,13 @@ public class AudioEncoderThread extends Thread {
             Log.e(TAG, "Unable to find an appropriate codec for " + MIME_TYPE);
             return;
         }
-        Log.i(TAG, "selected codec: " + audioCodecInfo.getName());
+        Log.e(TAG, "selected codec: " + audioCodecInfo.getName());
 
         audioFormat = MediaFormat.createAudioFormat(MIME_TYPE, SAMPLE_RATE, 1);
         audioFormat.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);
         audioFormat.setInteger(MediaFormat.KEY_CHANNEL_COUNT, 1);
         audioFormat.setInteger(MediaFormat.KEY_SAMPLE_RATE, SAMPLE_RATE);
-        Log.i(TAG, "format: " + audioFormat);
+        Log.e(TAG, "format: " + audioFormat);
     }
 
     private void startMediaCodec() throws IOException {

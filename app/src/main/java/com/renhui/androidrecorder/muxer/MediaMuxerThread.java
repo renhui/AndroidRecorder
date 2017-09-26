@@ -52,6 +52,7 @@ public class MediaMuxerThread extends Thread {
             synchronized (MediaMuxerThread.class) {
                 if (mediaMuxerThread == null) {
                     mediaMuxerThread = new MediaMuxerThread();
+                    Log.e("111", "mediaMuxerThread.start();");
                     mediaMuxerThread.start();
                 }
             }
@@ -77,6 +78,11 @@ public class MediaMuxerThread extends Thread {
     }
 
     private void readyStart(String filePath) throws IOException {
+        isExit = false;
+        isVideoTrackAdd = false;
+        isAudioTrackAdd = false;
+        muxerDatas.clear();
+
         mediaMuxer = new MediaMuxer(filePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
         if (audioThread != null) {
             audioThread.setMuxerReady(true);
@@ -84,6 +90,7 @@ public class MediaMuxerThread extends Thread {
         if (videoThread != null) {
             videoThread.setMuxerReady(true);
         }
+        Log.e(TAG, "readyStart(String filePath, boolean restart) 保存至:" + filePath);
     }
 
     // 添加视频帧数据
@@ -195,10 +202,8 @@ public class MediaMuxerThread extends Thread {
         fileSwapHelper = new FileSwapHelper();
         audioThread = new AudioEncoderThread((new WeakReference<MediaMuxerThread>(this)));
         videoThread = new VideoEncoderThread(1920, 1080, new WeakReference<MediaMuxerThread>(this));
-
         audioThread.start();
         videoThread.start();
-
         try {
             readyStart();
         } catch (IOException e) {
@@ -211,7 +216,6 @@ public class MediaMuxerThread extends Thread {
         super.run();
         // 初始化混合器
         initMuxer();
-
         while (!isExit) {
             if (isMuxerStart()) {
                 if (muxerDatas.isEmpty()) {

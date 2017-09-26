@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -88,6 +87,7 @@ public class MediaMuxerActivity extends AppCompatActivity implements SurfaceHold
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         Log.w("MainActivity", "enter surfaceDestroyed method");
+        MediaMuxerThread.stopMuxer();
         stopCamera();
 
     }
