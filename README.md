@@ -1,5 +1,6 @@
 # AndroidRecorder
-结合博客：[Android 音视频开发(七)： 音视频录制流程总结](http://www.cnblogs.com/renhui/p/7520690.html) 生成Demo：
+
+## 结合博客：[Android 音视频开发(七)： 音视频录制流程总结](http://www.cnblogs.com/renhui/p/7520690.html) 生成Demo：
 
 1.1 需求说明
 
