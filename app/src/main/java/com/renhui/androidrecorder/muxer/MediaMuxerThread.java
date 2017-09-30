@@ -34,7 +34,7 @@ public class MediaMuxerThread extends Thread {
     private int videoTrackIndex = -1;
     private int audioTrackIndex = -1;
 
-    private FileSwapHelper fileSwapHelper;
+    private FileUtils fileSwapHelper;
 
     // 音轨添加状态
     private volatile boolean isVideoTrackAdd;
@@ -199,7 +199,7 @@ public class MediaMuxerThread extends Thread {
 
     private void initMuxer() {
         muxerDatas = new Vector<>();
-        fileSwapHelper = new FileSwapHelper();
+        fileSwapHelper = new FileUtils();
         audioThread = new AudioEncoderThread((new WeakReference<MediaMuxerThread>(this)));
         videoThread = new VideoEncoderThread(1920, 1080, new WeakReference<MediaMuxerThread>(this));
         audioThread.start();
